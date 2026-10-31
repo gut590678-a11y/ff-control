@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FF Control Panel</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #111;
+    font-family: Arial, sans-serif;
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.panel {
+    width: 95%;
+    max-width: 460px;
+    background: #050505;
+    border: 2px solid #650000;
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 0 20px #ff000033;
+}
+
+.tabs {
+    display: flex;
+    gap: 4px;
+    border-bottom: 3px solid red;
+    padding-bottom: 7px;
+}
+
+.tab {
+    flex: 1;
+    background: #a90000;
+    border: none;
+    color: white;
+    padding: 9px 3px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.tab.active {
+    background: #ff2525;
+}
+
+.content {
+    padding: 12px 3px;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 12px 0;
+    font-size: 15px;
+}
+
+.toggle {
+    width: 24px;
+    height: 24px;
+    appearance: none;
+    background: #151515;
+    border: 1px solid #555;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.toggle:checked {
+    background: #ed1717;
+    border-color: red;
+    box-shadow: 0 0 8px red;
+}
+
+input[type="range"] {
+    accent-color: red;
+    width: 100%;
+}
+
+select {
+    background: #171717;
+    color: white;
+    border: 1px solid #555;
+    padding: 10px;
+    border-radius: 7px;
+    width: 100%;
+}
+
+.section {
+    border-top: 2px solid #a00000;
+    padding: 12px 0;
+    margin-top: 8px;
+}
+
+.section-title {
+    color: #ff3535;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.value {
+    text-align: center;
+    color: white;
+    background: #151515;
+    border: 1px solid #555;
+    padding: 9px;
+    border-radius: 8px;
+}
+
+.hidden {
+    display: none;
+}
+
+.hide-btn {
+    background: #b90000;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-top: 12px;
+    width: 100%;
+}
+
+.show-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #e00000;
+    color: white;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    display: none;
+}
+
+.show-btn.visible {
+    display: block;
+}
+
+.footer {
+    color: #777;
+    font-size: 11px;
+    text-align: center;
+    margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="panel" id="panel">
+
+    <div class="tabs">
+        <button class="tab active" onclick="changeTab(this,'aim')">✥ AIM</button>
+        <button class="tab" onclick="changeTab(this,'esp')">◉ ESP</button>
+        <button class="tab" onclick="changeTab(this,'misc')">⚙ MISC</button>
+        <button class="tab" onclick="changeTab(this,'sup')">● SUP</button>
+        <button class="tab" onclick="changeTab(this,'info')">▣ INFO</button>
+    </div>
+
+    <div class="content" id="aim">
+        <div class="section-title">AIM SETTINGS</div>
+
+        <div class="option">
+            <input class="toggle" type="checkbox">
+            Ativar modo demonstração
+        </div>
+
+        <div class="option">
+            <input class="toggle" type="checkbox">
+            Exibir FOV
+        </div>
+
+        <div class="section">
+            <div class="section-title">CONTROLE DE FOV</div>
+            <input type="range" min="0" max="360"
+            value="90" oninput="fovValue.innerText=this.value">
+            <div class="value">
+                FOV: <span id="fovValue">90</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">REGIÃO</div>
+            <select>
+                <option>Cabeça</option>
+                <option>Pescoço</option>
+                <option>Corpo</option>
+            </select>
+        </div>
+
+        <div class="section">
+            <div class="section-title">MODO DEMONSTRATIVO</div>
+            <div class="option">
+                <input type="radio" name="mode" checked>
+                Ao Atirar
+            </div>
+            <div class="option">
+                <input type="radio" name="mode">
+                Ao Olhar
+            </div>
+        </div>
+    </div>
+
+    <div class="content hidden" id="esp">
+        <div class="section-title">ESP SETTINGS</div>
+        <div class="option">
+            <input class="toggle" type="checkbox">
+            Mostrar informações
+        </div>
+        <div class="option">
+            <input class="toggle" type="checkbox">
+            Mostrar indicadores
+        </div>
+    </div>
+
+    <div class="content hidden" id="misc">
+        <div class="section-title">MISC SETTINGS</div>
+        <div class="option">
+            <input class="toggle" type="checkbox">
+            Animação do painel
+        </div>
+        <div class="option">
+            <input class="toggle" type="checkbox">
+            Efeitos visuais
+        </div>
+    </div>
+
+    <div class="content hidden" id="sup">
+        <div class="section-title">SUPORTE</div>
+        <p>FF Control Panel</p>
+        <p>Interface demonstrativa para iOS.</p>
+    </div>
+
+    <div class="content hidden" id="info">
+        <div class="section-title">INFORMAÇÕES</div>
+        <p>Versão: 1.0</p>
+        <p>Plataforma: iPhone / iOS</p>
+        <p>Interface: HTML + CSS + JS</p>
+    </div>
+
+    <button class="hide-btn" onclick="hidePanel()">
+        OCULTAR PAINEL
+    </button>
+
+    <div class="footer">
+        FREE FIRE CONTROL PANEL • DEMO
+    </div>
+</div>
+
+<button class="show-btn" id="showBtn"
+onclick="showPanel()">
+    MOSTRAR PAINEL
+</button>
+
+<script>
+function changeTab(button, id) {
+    document.querySelectorAll('.content')
+    .forEach(el => el.classList.add('hidden'));
+
+    document.getElementById(id)
+    .classList.remove('hidden');
+
+    document.querySelectorAll('.tab')
+    .forEach(el => el.classList.remove('active'));
+
+    button.classList.add('active');
+}
+
+function hidePanel() {
+    document.getElementById('panel')
+    .classList.add('hidden');
+
+    document.getElementById('showBtn')
+    .classList.add('visible');
+}
+
+function showPanel() {
+    document.getElementById('panel')
+    .classList.remove('hidden');
+
+    document.getElementById('showBtn')
+    .classList.remove('visible');
+}
+</script>
+
+</body>
+</html>
